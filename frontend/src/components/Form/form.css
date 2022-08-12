@@ -1,0 +1,12 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    margin: auto
+}
+
+.address {
+    display: flex;
+    flex-direction: column;
+}
+
