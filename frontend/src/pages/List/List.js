@@ -1,13 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import Header from '../../components/Header/Header';
+import Title from '../../components/Title/Title';
+import Searchbar from '../../components/SearchBar/Searchbar';
+import Table from '../../components/Table/Table';
+import { tableData } from '../../data/table';
 
 function List() {
+
+  const [ data, setData ] = useState(tableData)
   return (
-    <div id="employee-div" class="container">
-            <h1>Current Employees</h1>
-            <table id="employee-table" class="display"></table>
-            <Link to = "/">Home</Link>
-        </div>
+    <>
+      <Header />
+        <section className='container'>
+        < Title />          
+        </section>   
+        <Searchbar  list={data} setList={setData}/>
+          <Table />   
+    </>
   )
 }
 

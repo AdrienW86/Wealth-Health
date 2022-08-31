@@ -1,114 +1,165 @@
-import React, {useState} from 'react';
-import DatePicker from 'react-datepicker';
-import { Dropdown } from 'react-dropdown-now';
-import 'react-dropdown-now/style.css';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { states } from '../../data/states';
-import "react-datepicker/dist/react-datepicker.css";
+import { Formik , Form, Field, ErrorMessage} from "formik";
+import * as Yup from "yup";
 import './form.css';
 
-function Form() {
+function Forms() {
 
     const [toggle, setToggle] = useState(false)
-
-    const [startDate, setStartDate] = useState(new Date())
-
-
-    const value ='custom-id'
+    const [ data, setData ] = useState()
     
-
-   console.log(states[0])
-
     const closeModal = () => {
       setToggle(false)
     }
 
-    const onSubmit = data => {
-       console.log(data)
-       setToggle(true)
+    const validationSchema = Yup.object().shape({
+        firstname: Yup.string()
+            .required("Your first name is required"),
+        lastname: Yup.string()
+            .required("Your lastname is required"),
+        birth: Yup.date()
+            .required("Birth date is required"),
+        start: Yup.date()
+            .required("Start date is required"),
+        street: Yup.string()
+            .required("Street is required"),
+        city: Yup.string()
+            .required("City is required"),
+        zip: Yup.number()          
+            .required("Zip code is required"),
+        department: Yup.string()
+            .required("Department is required")
+    });
+
+    const initialValues = {
+        firstname: "", 
+        lastname: "", 
+        birth: "",
+        start: "",
+        street: "",
+        city: "",
+        state: "Alabama",
+        zip: "",
+        department: "Sales" 
     }
 
-    const onErrors = errors => console.error(errors)
-    const { register, handleSubmit, reset, formState: {errors}} = useForm()
+console.log(data)
+  
+return(
 
-  return (
-    <form 
-        className ="form"
-        onSubmit ={handleSubmit(onSubmit, onErrors)}
-        id="create-employee"
+    <Formik
+        initialValues={initialValues}                  
+        validationSchema={validationSchema}
+        onSubmit= {( values) => {
+            values.birth = new Date(values.birth).toLocaleDateString()
+            values.start = new Date(values.start).toLocaleDateString()
+            setData(values)
+        }}
     >
-        <label htmlFor="first-name">First Name</label>
-        <input 
-            type="text" 
-            id="first-name" 
-            {...register('firstName', {required: "firstname is required"})}
-        />
-        {errors?.firstName && <p style={{ color: 'red', margin: 0}}>{errors.firstName.message}</p>}
+        <Form>
 
-        <label htmlFor="last-name">Last Name</label>
-        <input 
-            type="text" 
-            id="last-name" 
-            {...register('lastName', {required: "lastname is required"})}
-        />
-         {errors?.lastName && <p style={{ color: 'red', margin: 0}}>{errors.lastName.message}</p>}
+          <label htmlFor="firstname"> First Name</label>
+            <Field
+                placeholder="Enter your first name"
+                type="text"
+                name="firstname"
+            />
+            <ErrorMessage 
+                name="firstname"
+            />
 
-        <label htmlFor="date-of-birth">Date of Birth</label>
-        <DatePicker 
-            id="date-of-birth"
-            selected={startDate} 
-            onChange={(date) => setStartDate(date)}
-        />
+          <label htmlFor="lastname">Last Name</label>
+            <Field
+                placeholder="Enter your last name"
+                type="text"
+                name= "lastname"
+            />
+            <ErrorMessage 
+                name="lastname"
+            />
+                  
+         <label htmlFor="birth"> Birth Date </label>
+            <Field 
+                type="date"
+                name="birth"
+            />
+            <ErrorMessage 
+                name="birth"
+            />        
 
-        <label htmlFor="start-date">Start Date</label>
-        <input id="start-date" type="text" />
-
-            <fieldset className="address">
-                <legend>Address</legend>
-                    <label htmlFor="street">Street</label>
-                    <input id="street" type="text" />
-
-                    <label htmlFor="city">City</label>
-                    <input id="city" type="text" />
-
-                    <label htmlFor="state">State</label>
-                   
-
-                    <Dropdown
-                        placeholder={states[0].name}
-                        className="state"
-                        options={states}
-                        value = {value}
-                        matcher ={(item, val) => {
-                            return item.id === val
-                        }}
-                        onChange ={(value) => console.log('changer', value)}
-                        onSelect= {(value) => console.log('selected', value)}
-                        onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
-                        onOpen={() => console.log('open!')}
+        <label htmlFor="start"> Start Date </label>
+            <Field 
+                type="date"
+                name="start"
+            />
+            <ErrorMessage 
+                name="start"
+            />  
+       
+        <fieldset className="address">
+            <legend>Address</legend>
+                <label htmlFor="street">Street</label>
+                    <Field  
+                        type="text"
+                        name="street"
+                        placeholder="Enter your street"
                     />
+                    <ErrorMessage 
+                        name="street"
+                    />                                    
+                <label htmlFor="city">City</label>
+                    <Field                        
+                        type="text" 
+                        name="city"
+                        placeholder="Enter your city"                     
+                    />
+                    <ErrorMessage 
+                        name="city"
+                    />                                                       
+                <label htmlFor="state">State</label>                  
+                    <Field as="select" 
+                        name="state"  
+                        type="text"   
+                        placeholder="Enter your state"                       
+                    >                             
+                        {states.map((state, index) => {
+                            return <option key={index}> {state.name} </option>
+                        })}                          
+                    </Field>     
+                 
+                <label htmlFor="zip">Zip Code</label>
+                    <Field 
+                        name="zip" 
+                        type="number"
+                        placeholder="Enter your zip code"
+                    />
+                    <ErrorMessage 
+                        name="zip"
+                    />                
+        </fieldset>
 
-                   
-
-                    <label htmlFor="zip-code">Zip Code</label>
-                    <input id="zip-code" type="number" />
-            </fieldset>
-
-        <label htmlFor="department">Department</label>
-        <select name="department" id="department">
-            <option>Sales</option>
-            <option>Marketing</option>
-            <option>Engineering</option>
-            <option>Human Resources</option>
-            <option>Legal</option>
-         </select>
-
-         <button 
-            type='submit'
-        >
-            Save
-        </button>
-    </form>
+        <label htmlFor="department"> Department</label>
+            <Field   
+                as="select"         
+                name="department"
+                type="text"
+                placeholder="Enter your street"         
+            >                
+                <option>Sales</option>
+                <option>Marketing</option>
+                <option>Engineering</option>
+                <option>Human Resources</option>
+                <option>Legal</option>
+            </Field>
+          
+          <button type="submit" //disabled={isSubmitting}
+          >
+            Submit
+          </button> 
+        </Form>
+    </Formik>
   )
 }
-export default Form
+
+export default Forms
