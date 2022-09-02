@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { states } from '../../data/states';
-import { Formik , Form, Field, ErrorMessage} from "formik";
+import { Formik , Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import './form.css';
+import Modal from '../Modal/Modal';
+
+import { tableData} from "../../data/table"
 
 function Forms() {
 
     const [toggle, setToggle] = useState(false)
-    const [ data, setData ] = useState()
-    
+    const [ data, setData ] = useState(null)
+
     const closeModal = () => {
       setToggle(false)
     }
@@ -17,10 +20,10 @@ function Forms() {
         firstname: Yup.string()
             .required("Your first name is required"),
         lastname: Yup.string()
-            .required("Your lastname is required"),
-        birth: Yup.date()
+            .required("Your last name is required"),
+        dateOfBirth: Yup.date()
             .required("Birth date is required"),
-        start: Yup.date()
+        startDate: Yup.date()
             .required("Start date is required"),
         street: Yup.string()
             .required("Street is required"),
@@ -35,30 +38,50 @@ function Forms() {
     const initialValues = {
         firstname: "", 
         lastname: "", 
-        birth: "",
-        start: "",
+        startDate: "",
+        department: "Sales",
+        dateOfBirth: "", 
         street: "",
         city: "",
         state: "Alabama",
-        zip: "",
-        department: "Sales" 
+        zip: "",   
     }
 
-console.log(data)
-  
-return(
+         
+    if(localStorage.length === 0) {
+        console.log("init localestorage")
+        localStorage.setItem("list", JSON.stringify(tableData))
+    }
+    
+useEffect(() => {  
+    let storage = JSON.parse(localStorage.getItem("list"))
+    console.log(storage)
+        if(data === null) {
+            console.log("que dalle")               
+        }else{
+            storage.push(data)
+            console.log(storage)
+            localStorage.setItem("list", JSON.stringify(storage))
+        }      
+}, [data])
+ 
 
+console.log(data)
+return(
+    <>
     <Formik
         initialValues={initialValues}                  
         validationSchema={validationSchema}
-        onSubmit= {( values) => {
-            values.birth = new Date(values.birth).toLocaleDateString()
-            values.start = new Date(values.start).toLocaleDateString()
+        onSubmit= {( values, {resetForm}) => {
+            values.dateOfBirth = new Date(values.dateOfBirth).toLocaleDateString()
+            values.startDate = new Date(values.startDate).toLocaleDateString()
+            values.zip = values.zip.toString()
             setData(values)
+            resetForm()
+            setToggle(true)           
         }}
     >
-        <Form>
-
+        <Form className='form'>
           <label htmlFor="firstname"> First Name</label>
             <Field
                 placeholder="Enter your first name"
@@ -67,8 +90,9 @@ return(
             />
             <ErrorMessage 
                 name="firstname"
+                style={{color: "#AB1E00 "}}
+                component="span"
             />
-
           <label htmlFor="lastname">Last Name</label>
             <Field
                 placeholder="Enter your last name"
@@ -76,27 +100,33 @@ return(
                 name= "lastname"
             />
             <ErrorMessage 
+                className='error'
                 name="lastname"
-            />
-                  
-         <label htmlFor="birth"> Birth Date </label>
+                style={{color: "#AB1E00 "}}
+                component="span"
+            />                 
+         <label htmlFor="dateOfBirth"> Birth Date </label>
             <Field 
                 type="date"
-                name="birth"
+                name="dateOfBirth"
             />
             <ErrorMessage 
-                name="birth"
+                className='error'
+                name="dateOfBirth"
+                style={{color: "#AB1E00 "}}
+                component="span"
             />        
-
-        <label htmlFor="start"> Start Date </label>
+        <label htmlFor="startDate"> Start Date </label>
             <Field 
                 type="date"
-                name="start"
+                name="startDate"               
             />
             <ErrorMessage 
-                name="start"
-            />  
-       
+                className='error'
+                name="startDate"
+                style={{color: "#AB1E00 "}}
+                component="span"
+            />        
         <fieldset className="address">
             <legend>Address</legend>
                 <label htmlFor="street">Street</label>
@@ -106,7 +136,10 @@ return(
                         placeholder="Enter your street"
                     />
                     <ErrorMessage 
+                        className='error'
                         name="street"
+                        style={{color: "#AB1E00 "}}
+                        component="span"
                     />                                    
                 <label htmlFor="city">City</label>
                     <Field                        
@@ -114,8 +147,11 @@ return(
                         name="city"
                         placeholder="Enter your city"                     
                     />
-                    <ErrorMessage 
+                    <ErrorMessage
+                        className='error' 
                         name="city"
+                        style={{color: "#AB1E00 "}}
+                        component="span"
                     />                                                       
                 <label htmlFor="state">State</label>                  
                     <Field as="select" 
@@ -135,10 +171,12 @@ return(
                         placeholder="Enter your zip code"
                     />
                     <ErrorMessage 
+                        className='error'
                         name="zip"
+                        style={{color: "#AB1E00 "}}
+                        component="span"
                     />                
         </fieldset>
-
         <label htmlFor="department"> Department</label>
             <Field   
                 as="select"         
@@ -151,14 +189,22 @@ return(
                 <option>Engineering</option>
                 <option>Human Resources</option>
                 <option>Legal</option>
-            </Field>
-          
-          <button type="submit" //disabled={isSubmitting}
+            </Field>          
+          <button 
+            className='btn-submit'
+            type="submit" 
           >
             Submit
-          </button> 
+          </button>
         </Form>
     </Formik>
+    {toggle 
+        ?
+    <Modal
+        close = {closeModal}
+        />
+    : null}
+    </>
   )
 }
 

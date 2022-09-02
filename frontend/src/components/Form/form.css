@@ -14,3 +14,22 @@
 label {
     color: rgb(203, 234, 200)
 }
+
+.btn-submit {
+    display: flex;
+    width: 160px;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: relative;
+    left: 100px;
+    margin:  40px 0;
+}
+
+input {
+    margin: 6px 0;
+}
+
+fieldset {
+    margin: 20px 0;
+}

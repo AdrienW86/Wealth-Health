@@ -1,7 +1,7 @@
 import React from 'react';
 import './modal.css';
 
-function Modal() {
+function Modal(props) {
 
   return (
     <>
@@ -14,14 +14,12 @@ function Modal() {
         </p>
         <button 
           className='close-modal'
-          onClick={closeModal}>
+          onClick={props.close}>
          X
         </button>
-      </div>
-      
+      </div>     
     </section>
-    </>
-   
+    </>   
   )
 }
 
