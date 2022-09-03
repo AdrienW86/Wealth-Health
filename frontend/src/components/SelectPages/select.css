@@ -1,0 +1,12 @@
+.select-container {
+    width: auto;
+    display: flex;
+}
+
+.select {
+    height: 20px;
+    margin: 0 5px;
+    position: relative;
+    top: 15px;
+    border: 1px solid green;
+}

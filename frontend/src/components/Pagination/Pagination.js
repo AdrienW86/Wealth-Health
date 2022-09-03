@@ -1,19 +1,29 @@
-import React from 'react'
+import React from 'react';
+import './pagination.css';
 
-function Pagination() {
+const Pagination = ({postsPerPage, totalPosts, paginate})  => {
+
+  const pageNumbers = []
+
+  for(let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i)
+  }
+
   return (
-    <section className='searchbar'>
-        <div className='pages'>
-            <p> Show </p>
-            <select className='select' onChange={pagesHandleChange} value={pages}> 
-                <option className='option'  value = '10' >  10  </option>
-                <option className='option'  value = '25' >  25  </option>
-                <option className='option'  value = '50' >  50  </option>
-                <option className='option'  value = '100'> 100  </option>
-            </select>
-            <p> entries </p>
-        </div>  
-    </section>
+    <nav>
+      <ul className='pagination'>
+        {pageNumbers.map(number =>(
+          <li key={number}>
+            <button
+              className="btn-page"
+              onClick={() => paginate(number)}
+             >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
 

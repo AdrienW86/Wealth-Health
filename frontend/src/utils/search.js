@@ -11,8 +11,3 @@ export const searchArray = () => {
             })
     }))
 }
-
-export const selectedPages = (array, number) => {
-    
-
-}
