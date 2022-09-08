@@ -4,7 +4,6 @@ import { Formik , Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import './form.css';
 import Modal from '../Modal/Modal';
-
 import { tableData} from "../../data/table"
 
 function Forms() {
@@ -46,8 +45,7 @@ function Forms() {
         state: "Alabama",
         zip: "",   
     }
-
-         
+        
     if(localStorage.length === 0) {
         console.log("init localestorage")
         localStorage.setItem("list", JSON.stringify(tableData))
@@ -55,26 +53,21 @@ function Forms() {
     
 useEffect(() => {  
     let storage = JSON.parse(localStorage.getItem("list"))
-    console.log(storage)
-        if(data === null) {
-            console.log("que dalle")               
-        }else{
+        if(data !== null) {
             storage.push(data)
-            console.log(storage)
             localStorage.setItem("list", JSON.stringify(storage))
         }      
 }, [data])
  
-
-console.log(data)
 return(
     <>
     <Formik
         initialValues={initialValues}                  
         validationSchema={validationSchema}
         onSubmit= {( values, {resetForm}) => {
-            values.dateOfBirth = new Date(values.dateOfBirth).toLocaleDateString()
-            values.startDate = new Date(values.startDate).toLocaleDateString()
+            let re = /-/gi;
+            values.dateOfBirth = values.dateOfBirth.replace(re, '/')
+            values.startDate = values.startDate.replace(re, '/')
             values.zip = values.zip.toString()
             setData(values)
             resetForm()
@@ -108,6 +101,7 @@ return(
          <label htmlFor="dateOfBirth"> Birth Date </label>
             <Field 
                 type="date"
+                format="YYYY/MM/DD"
                 name="dateOfBirth"
             />
             <ErrorMessage 
@@ -154,7 +148,9 @@ return(
                         component="span"
                     />                                                       
                 <label htmlFor="state">State</label>                  
-                    <Field as="select" 
+                    <Field 
+                        as="select" 
+                        className="select-adress"
                         name="state"  
                         type="text"   
                         placeholder="Enter your state"                       

@@ -15,7 +15,6 @@
     width: 1350px;
     display: flex;
     flex-direction: column;
-    background: rgb(86, 184, 92); 
 }
 
 .columns {
@@ -41,6 +40,17 @@
 
 .user-info {
     border-bottom: 2px solid rgb(213, 240, 214);
+    color: rgb(60, 123, 60);
+    background: rgb(60, 123, 60);
+    margin-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+}
+
+.user-info:hover {
+    transition: transform 0.5s;
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 .btn-container {

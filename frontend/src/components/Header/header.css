@@ -22,11 +22,6 @@ header {
     width: 55%
 }
 
-.list-link {
-    width: 30%;
-    margin: 0
-}
-
 .title {
     margin: 0;
     position: relative;
@@ -37,6 +32,9 @@ header {
 
 .link {
     text-decoration: none;
+    display: flex;
+    width: 40%;
+    margin-right: 5%;
 }
 
 .link-text { 

@@ -20,7 +20,7 @@ const findLocation = () => {
 
 useEffect(() => {
   findLocation()
-},[])
+},[pathList])
 
   return (
     <header>
@@ -35,6 +35,7 @@ useEffect(() => {
             </li>           
             {pathList 
             ?
+            <li className = 'link'>
                 <Link 
                     className = 'link'
                     to = "/"
@@ -43,16 +44,20 @@ useEffect(() => {
                         Home
                     </p> 
                 </Link>
-            :                
+            </li>
+            :      
+            <li className = 'link'>
                 <Link 
-                    className = 'link'
+                    className = 'link'                   
                     to = "/list"
                 > 
                     <p className='link-text'>
                         View Current Employees 
                     </p> 
-                </Link>               
-            }          
+                </Link>  
+            </li>  
+                           
+            }      
         </nav>
     </header>
   )

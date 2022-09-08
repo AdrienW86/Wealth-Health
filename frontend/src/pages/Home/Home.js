@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Form from '../../components/Form/Form';
 import Header from '../../components/Header/Header';
 import Title from '../../components/Title/Title';
-//import Modal from '../../components/Modal/Modal';
 import './home.css';
 
 function Home() {
@@ -16,9 +15,9 @@ function Home() {
     <>
       <Header />
       <section className='container'>
-        <Title />                
-        <Form />       
-      </section>       
+        <Title />                              
+      </section> 
+      <Form />
         {toggle ?
           <section 
             className='modal'
