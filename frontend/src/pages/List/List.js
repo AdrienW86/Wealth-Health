@@ -55,7 +55,8 @@ useEffect(()=> {
           currentPosts={currentPosts}
         />  
        <Pagination 
-          postsPerPage ={postsPerPage}
+          currentPage = {currentPage}
+          postsPerPage ={ postsPerPage}
           totalPosts ={posts.length}
           paginate = { paginate}
         />

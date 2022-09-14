@@ -26,7 +26,7 @@ const Table =({currentPosts, value}) => {
 
   return (
     <>
-    <table className='table'>
+    <table className='table' aria-label='table of employe'>
       <thead className='table-header'>
         <tr className='columns'>          
         {columns.map((column) => {
@@ -34,12 +34,14 @@ const Table =({currentPosts, value}) => {
               <div className='btn-container' >               
                 <button 
                 className='btn-up'
+                aria-label='btn asc'
                 value={column.field}
                 onClick={sortByAsc}
                 >
                 </button>               
                 <button 
                   className='btn-down' 
+                  aria-label='btn desc'
                   value={column.field}
                   onClick={sortByDesc}
                 >

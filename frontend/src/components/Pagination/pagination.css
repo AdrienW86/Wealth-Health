@@ -19,3 +19,16 @@
 .btn-page:hover {
    cursor: pointer;
 }
+
+.btn-prev, .btn-next {
+   position: relative;
+   top: 12px;
+   color: green;
+   background: white;
+   border: green solid 1px;
+   margin: 0px 10px;
+}
+
+.btn-prev:hover, .btn-next:hover {
+   cursor: pointer;
+}

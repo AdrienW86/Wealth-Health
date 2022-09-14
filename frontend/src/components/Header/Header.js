@@ -11,20 +11,21 @@ const [pathList, setPathList] = useState(false)
 const location = useLocation()
 const currentLocation = location.pathname
 
-const findLocation = () => {
-    if( currentLocation === "/list") {
-        setPathList(true)
-       }
-    else(setPathList(false))
-}
+
 
 useEffect(() => {
-  findLocation()
-},[pathList])
+    if( currentLocation === "/list") {
+        setPathList(true)
+    }
+    else{
+        (setPathList(false)) 
+    } 
+  },[pathList])
 
   return (
     <header>
         <nav className='navbar'>
+          <ul>
             <li className='logo-link'>
                 <img 
                     className='logo'
@@ -55,9 +56,9 @@ useEffect(() => {
                         View Current Employees 
                     </p> 
                 </Link>  
-            </li>  
-                           
-            }      
+            </li>                  
+            }  
+          </ul>   
         </nav>
     </header>
   )

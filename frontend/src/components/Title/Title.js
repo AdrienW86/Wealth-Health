@@ -8,16 +8,17 @@ export default function Title() {
     const location = useLocation()
     const currentLocation = location.pathname
 
-    const displayTitle = () => {
-        if( currentLocation === "/list") {
-            setHomeTitle(true)
-        }
-        else(setHomeTitle(false))
-    }
+   
+        
 
 useEffect(() => {
-  displayTitle()
-},[])
+  if( currentLocation === "/list") {
+    setHomeTitle(true)
+  }
+  else {(
+    setHomeTitle(false))
+  }
+},[currentLocation])
 
   return (
     <>{homeTitle
